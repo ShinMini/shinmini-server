@@ -29,7 +29,7 @@ datasource db {
 model User {
   id       Int      @id @default(autoincrement())
   name     String
-  jobTitle String
+  jobTitle String   @db.VarChar(100)
   posts    Post[]
   profile  Profile?
 }
@@ -48,6 +48,7 @@ model Post {
   content    String     @db.VarChar(500)
   authorId   Int
   author     User       @relation(fields: [authorId], references: [id])
+  tags       String[]
   categories Category[]
 }
 
