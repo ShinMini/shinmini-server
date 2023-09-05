@@ -28,8 +28,10 @@ datasource db {
 
 model User {
   id       Int      @id @default(autoincrement())
-  name     String
-  jobTitle String   @db.VarChar(100)
+  name     String?
+  email    String @unique
+  password String  @db.VarChar(100) 
+  jobTitle String?   @db.VarChar(100)
   posts    Post[]
   profile  Profile?
 }
