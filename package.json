@@ -1,8 +1,8 @@
 {
-  "name": "nest-app",
+  "name": "shinmini-server",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "this is a server side project of shinmini homepage",
+  "author": "ShinMini",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
