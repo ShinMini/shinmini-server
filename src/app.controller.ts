@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common'
 import { AppService } from './app.service'
 import { Public } from './auth/auth.decorator'
 
-@Controller('shinmini-homepage/us-central1/api')
+@Controller('shinmini-homepage/us-central1/api/')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 

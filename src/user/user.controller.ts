@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User as UserModel } from '@prisma/client'
 
-@Controller('user')
+@Controller('shinmini-homepage/us-central1/api/user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

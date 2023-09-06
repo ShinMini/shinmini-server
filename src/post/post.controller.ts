@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common'
 import { PostService } from './post.service'
 import { Post as PostModel, Prisma } from '@prisma/client'
 
-@Controller('post')
+@Controller('shinmini-homepage/us-central1/api/post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
