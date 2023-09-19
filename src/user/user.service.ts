@@ -3,10 +3,15 @@ import { PrismaService } from '../prisma.service'
 import { User, Prisma } from '@prisma/client'
 import { JwtService } from '@nestjs/jwt'
 import { errorTypeClassify } from 'src/utils/error-handler/error-type-classify'
+import Encrypter from 'src/utils/error-handler/crypto'
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+    private encrypter: Encrypter
+  ) {}
 
   async login(userInfo: { email: string; password: string }): Promise<any> {
     try {
@@ -21,14 +26,18 @@ export class UserService {
           occurred: 'email',
         })
       }
-      if (user.password !== userInfo.password) {
+      const encryptedPassword = this.encrypter
+        .encrypting(userInfo.password)
+        .toString()
+
+      if (user.password !== encryptedPassword) {
         throw new UnauthorizedException({
           error: 'INVALID_CREDENTIALS',
           occurred: 'password',
         })
       }
 
-      const payload = { sub: user.id, username: user.name }
+      const payload = { sub: user.id, userEmail: user.email }
 
       return {
         access_token: await this.jwtService.signAsync(payload),
@@ -40,16 +49,22 @@ export class UserService {
         console.log('unauthorized')
         throw err
       }
-
       return err
     }
   }
 
   async signUp(userInfo: { email: string; password: string }): Promise<any> {
-    console.log('AuthService.signUp triggered')
     try {
-      const user = await this.createUser(userInfo)
-      const payload = { sub: user.id, username: user.name }
+      const encryptedPassword = this.encrypter
+        .encrypting(userInfo.password)
+        .toString()
+      const encryptedUserInfo = {
+        email: userInfo.email,
+        password: encryptedPassword,
+      }
+
+      const user = await this.createUser(encryptedUserInfo)
+      const payload = { sub: user.id, userEmail: user.email }
 
       return {
         access_token: await this.jwtService.signAsync(payload),
