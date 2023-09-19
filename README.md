@@ -64,7 +64,7 @@ Nest.js Demo Server App is developed with [Nest.js](https://facebook.github.io/r
 The [`./src/assets`](./src/assets) folder contains all assets:
 
 | Folder                           | Description                       |
-|----------------------------------|-----------------------------------|
+| -------------------------------- | --------------------------------- |
 | [`/fonts`](./src/assets/fonts)   | This folder store all fonts       |
 | [`/images`](./src/assets/images) | This folder store all images      |
 | [`/svgs`](./src/assets/svgs)     | This folder store all icons using |
@@ -74,7 +74,7 @@ The [`./src/assets`](./src/assets) folder contains all assets:
 The [`./src/components`](./src/components) folder contains all common components:
 
 | Folder                                 | Description                                                     |
-|----------------------------------------|-----------------------------------------------------------------|
+| -------------------------------------- | --------------------------------------------------------------- |
 | [`/base`](./src/components/base)       | This folder contains original component of RN with custom props |
 | [`/loading`](./src/components/loading) | This folder contains loading global                             |
 | [`/root`](./src/components/root)       | This folder contains socket listener global                     |
@@ -86,7 +86,7 @@ The [`./src/components`](./src/components) folder contains all common components
 The [`./src/modules`](./src/modules) folder contains subfolders which collectively group features and contents that serve a **common business-related purpose**. For instance, login is a module and user is another module. Each sub folder under module folder adapt to this universal folder structure:
 
 | Folder                  | Description                                                                                                        |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------|
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `<module>/assets`       | This folder is to store the `image.ts` file. Instructions of to add images can be found [here](#how-to-Add-Image). |
 | `<module>/src`          | This folder is to store all action, constant, saga, selector and logic related files of the module (utils), etc.   |
 | `<module>/tests`        | This folder is to store all unit testing files of the module.                                                      |
@@ -100,13 +100,13 @@ The [`./src/modules`](./src/modules) folder contains subfolders which collective
 
 **Note:** `.x` or `.x.x` indicates **the latest stable minor** version of that tool, e.g.: `1.x.x` > `1.62.3`
 
-| Tool                                                                       | Version  | How to Check                                  | How To Get                                                                                               |
-|----------------------------------------------------------------------------|----------|-----------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| [Nest.js](https://docs.nestjs.com/)                                                | `9.x.x`  |      | `yarn`
-| [Visual Studio Code](https://code.visualstudio.com)                        | `1.x.x`  | `code --version`                              | `brew install --cask visual-studio-code` or <https://code.visualstudio.com/Download>                       |
-| [Node](https://nodejs.org/en)                                              | `18.x.x` | `node -v`                                     | `brew install node@16`                                                                                   |
-| [NVM](https://github.com/nvm-sh/nvm)                                       | `0.39.1` | `nvm -v`                                      | `brew install nvm`                                                                                       |
-| [Yarn](https://yarnpkg.com)                                                | `1.x.x`  | `yarn -v`                                     | `npm install --global yarn`                                                                              |
+| Tool                                                | Version  | How to Check     | How To Get                                                                           |
+| --------------------------------------------------- | -------- | ---------------- | ------------------------------------------------------------------------------------ |
+| [Nest.js](https://docs.nestjs.com/)                 | `9.x.x`  |                  | `yarn`                                                                               |
+| [Visual Studio Code](https://code.visualstudio.com) | `1.x.x`  | `code --version` | `brew install --cask visual-studio-code` or <https://code.visualstudio.com/Download> |
+| [Node](https://nodejs.org/en)                       | `18.x.x` | `node -v`        | `brew install node@16`                                                               |
+| [NVM](https://github.com/nvm-sh/nvm)                | `0.39.1` | `nvm -v`         | `brew install nvm`                                                                   |
+| [Yarn](https://yarnpkg.com)                         | `1.x.x`  | `yarn -v`        | `npm install --global yarn`                                                          |
 
 ## How-Tos
 
@@ -146,6 +146,7 @@ The [`./src/modules`](./src/modules) folder contains subfolders which collective
 
 4. Push `git push`
 5. Create merge request
+
    - Title of merge request: This should be the description of commit change and capitalize the first letter.
 
    ```
@@ -156,7 +157,7 @@ The [`./src/modules`](./src/modules) folder contains subfolders which collective
 
 Additional workflow prerequisites:
 
-- Node.js >= 16  (from brew or from Web)
+- Node.js >= 16 (from brew or from Web)
 - Nest.js
 - yarn
 
