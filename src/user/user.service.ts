@@ -1,78 +1,17 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
-import { User, Prisma } from '@prisma/client'
+import { User, Prisma, Profile } from '@prisma/client'
 import { JwtService } from '@nestjs/jwt'
 import { errorTypeClassify } from 'src/utils/error-handler/error-type-classify'
-import Encrypter from 'src/utils/error-handler/crypto'
-
+import Encrypt from 'src/utils/error-handler/crypto'
+import { ResponseDeleteUser } from './user.controller'
 @Injectable()
 export class UserService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
-    private encrypter: Encrypter
+    private encrypt: Encrypt
   ) {}
-
-  async login(userInfo: { email: string; password: string }): Promise<any> {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: {
-          email: userInfo.email,
-        },
-      })
-      if (!user) {
-        throw new UnauthorizedException({
-          error: 'INVALID_CREDENTIALS',
-          occurred: 'email',
-        })
-      }
-      const encryptedPassword = this.encrypter
-        .encrypting(userInfo.password)
-        .toString()
-
-      if (user.password !== encryptedPassword) {
-        throw new UnauthorizedException({
-          error: 'INVALID_CREDENTIALS',
-          occurred: 'password',
-        })
-      }
-
-      const payload = { sub: user.id, userEmail: user.email }
-
-      return {
-        access_token: await this.jwtService.signAsync(payload),
-      }
-    } catch (err) {
-      console.error('AuthService.signIn triggered!!')
-      console.error(err)
-      if (err instanceof UnauthorizedException) {
-        console.log('unauthorized')
-        throw err
-      }
-      return err
-    }
-  }
-
-  async signUp(userInfo: { email: string; password: string }): Promise<any> {
-    try {
-      const encryptedPassword = this.encrypter
-        .encrypting(userInfo.password)
-        .toString()
-      const encryptedUserInfo = {
-        email: userInfo.email,
-        password: encryptedPassword,
-      }
-
-      const user = await this.createUser(encryptedUserInfo)
-      const payload = { sub: user.id, userEmail: user.email }
-
-      return {
-        access_token: await this.jwtService.signAsync(payload),
-      }
-    } catch (err) {
-      return errorTypeClassify(err)
-    }
-  }
 
   async findUser(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput
@@ -99,10 +38,23 @@ export class UserService {
     })
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({
-      data,
+  async getProfile(user: User): Promise<Profile> {
+    return this.prisma.profile.findUnique({
+      where: {
+        userId: user.id,
+      },
     })
+  }
+
+  async createUser(data: Prisma.UserCreateInput): Promise<User> {
+    try {
+      return this.prisma.user.create({
+        data,
+      })
+    } catch (error) {
+      console.error('UserService.createUser triggered!!')
+      console.error(error)
+    }
   }
 
   async updateUser(params: {
@@ -116,9 +68,25 @@ export class UserService {
     })
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.delete({
-      where,
-    })
+  async deleteUser(
+    where: Prisma.UserMaxAggregateOutputType
+  ): Promise<ResponseDeleteUser> {
+    try {
+      await this.prisma.user.delete({
+        where,
+      })
+      return {
+        success: true,
+        message: 'User deleted successfully',
+      }
+    } catch (err: unknown) {
+      console.error('UserService.deleteUser triggered!!')
+      console.error(err)
+      const error = errorTypeClassify(err)
+      return {
+        success: false,
+        error,
+      }
+    }
   }
 }

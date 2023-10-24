@@ -1,33 +1,45 @@
-import { Controller, Post, Body, HttpStatus, HttpCode } from '@nestjs/common'
+import {
+  Controller,
+  Post,
+  Body,
+  Request,
+  HttpStatus,
+  HttpCode,
+  Get,
+  Req,
+} from '@nestjs/common'
 import { UserService } from './user.service'
 import { User as UserModel } from '@prisma/client'
-import { Public } from 'src/auth/auth.decorator'
 
-export interface UserDto {
-  email: string
-  password: string
-}
+export type ResponseDeleteUser =
+  | {
+      success: true
+      message: string
+    }
+  | {
+      success: false
+      error: {
+        type: string
+        occurred: unknown
+        message: string
+      }
+    }
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Public()
-  @HttpCode(HttpStatus.CREATED)
-  @Post('signup')
-  async signupUser(@Body() userData: UserDto): Promise<UserModel> {
-    return this.userService.signUp(userData)
-  }
-
-  @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: UserDto) {
-    return this.userService.login(signInDto)
+  @Get('Profile')
+  getProfile(@Request() req: { user: UserModel }) {
+    return this.userService.getProfile(req?.user)
   }
 
+  @HttpCode(HttpStatus.ACCEPTED)
   @Post('delete-account')
-  async deleteUser(@Body() userData: { email: string }): Promise<UserModel> {
-    return this.userService.deleteUser({ email: userData.email })
+  async deleteUser(
+    @Req() req: { user: UserModel }
+  ): Promise<ResponseDeleteUser> {
+    return this.userService.deleteUser(req?.user)
   }
 }

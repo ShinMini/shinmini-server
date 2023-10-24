@@ -15,7 +15,7 @@ const genKey = () => {
   ) as Promise<Buffer>
 }
 
-class Encrypter {
+class Encrypt {
   private key: Buffer
 
   constructor() {
@@ -42,4 +42,4 @@ class Encrypter {
   }
 }
 
-export default Encrypter
+export default Encrypt
